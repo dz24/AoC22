@@ -1,5 +1,3 @@
-
-
 # rock: 1 paper: 2 scissor: 3
          #  lose    draw    win
 MOVE_DIC = {'X': 1, 'Y': 2, 'Z': 3, # win cond
