@@ -28,7 +28,7 @@ def part_12(inp, part2=False):
             else:
                 ally = strip[1]
 
-            # do exactly as first part
+            # add win_dic and move_dic
             diff = MOVE_DIC[ally] - MOVE_DIC[enem]
             tot_p += WIN_DIC[diff] + MOVE_DIC[ally]
     print(tot_p)
