@@ -1,20 +1,38 @@
 
 
 # rock: 1 paper: 2 scissor: 3
-         #  stone   paper   sciss  <- win
-move_dic = {'X': 1, 'Y': 2, 'Z': 3,
-            'A': 1, 'B': 2, 'C': 3}
+         #  lose    draw    win
+MOVE_DIC = {'X': 1, 'Y': 2, 'Z': 3, # win cond
+            'A': 1, 'B': 2, 'C': 3} # what they play
+         #  stone   paper   sciss  -> win
 
 # stone vs: paper (-1 l), sciss (-2 w)
 # paper vs: sciss (-1 l), sciss ( 1 w)
 # sciss vs: stone ( 2 l), paper ( 1 w)
 # win: 6 draw: 3, lose: 0
-win_dic = {0: 3, 1: 6, -2: 6, -1: 0, 2: 0}
+WIN_DIC = {0: 3, 1: 6, -2: 6, -1: 0, 2: 0}
+MOVES = 'ABC'
 
-tot_p = 0
-with open('./a1-part1.txt') as file:
-    for line in file:
-        strip = line.rstrip().split()
-        diff = move_dic[strip[1]] - move_dic[strip[0]]
-        tot_p += win_dic[diff] + move_dic[strip[1]]
-        print(win_dic[diff], move_dic[strip[1]], tot_p)
+def part_12(inp, part2=False):
+    with open(inp, 'r') as file:
+
+        tot_p = 0
+        for line in file:
+            strip = line.rstrip().split()
+
+            enem = strip[0]
+            if part2:
+                # given enem, find ally move
+                ally_idx = MOVES.index(enem) + MOVE_DIC[strip[1]] - 2
+                ally = MOVES[ally_idx%3]
+            else:
+                ally = strip[1]
+
+            # do exactly as first part
+            diff = MOVE_DIC[ally] - MOVE_DIC[enem]
+            tot_p += WIN_DIC[diff] + MOVE_DIC[ally]
+    print(tot_p)
+
+INP = './a1-part1.txt'
+part_12(INP)
+part_12(INP, part2=True)
