@@ -15,37 +15,48 @@ def read_input(inp):
                 orders.append(rstrip)
 
     # add the letters correctly to stacks_l(ist)
-    numbering = [i for i in stacks_r[-1] if i != ' ']
-    stacks_l = [[] for _ in numbering]
-    len_r = len(stacks_r[0])
-    letter_idx = [i for i in range(len_r) if (i+3)%4 == 0]
+    stacks_lst = [[] for _ in stacks_r[-1] if _ not in ' ']
     for line in stacks_r[:-1]:
         letter_idxs = [i for i in range(len(line)) if (i+3)%4 == 0]
         for idx, letter_idx in enumerate(letter_idxs):
             if line[letter_idx] not in ('[] '):
-                stacks_l[idx] += line[letter_idx]
+                stacks_lst[idx] += line[letter_idx]
 
     # reverse list:
-    for lst in stacks_l:
+    for lst in stacks_lst:
         lst.reverse()
 
-    return stacks_l, orders
+    return stacks_lst, orders
 
 def reorder(stacks_l, orders):
+    stacks_l2 = [lst.copy() for lst in stacks_l]
+
+    # part1:
     for order in orders:
         # number, from to
         split = order.split()
         todo = [int(split[i]) for i in [1,3,5]]
-        # todo = [int(i) for i in order if i in numbers]
-        for i in range(todo[0]):
+        for _ in range(todo[0]):
             stacks_l[todo[2]-1].append(stacks_l[todo[1]-1].pop())
 
+    # part2:
+    for order in orders:
+        # number, from to
+        temp = []
+        split = order.split()
+        todo = [int(split[i]) for i in [1,3,5]]
+        for _ in range(todo[0]):
+            temp.append(stacks_l2[todo[1]-1].pop())
+
+        temp.reverse()
+        stacks_l2[todo[2]-1] += temp
+
     print(''.join([i[-1] for i in stacks_l]))
+    print(''.join([i[-1] for i in stacks_l2]))
 
 
 
 INP0 = './a0-example.txt'
 INP1 = './a1-part1.txt'
-stacks_l, orders = read_input(INP1)
-reorder(stacks_l, orders)
-
+stacks_l0, orders0 = read_input(INP0)
+reorder(stacks_l0, orders0)
