@@ -10,7 +10,6 @@ def solution(inp, signal_len=14):
     signal = []
     for idx, letter in enumerate(line):
         signal.append(letter)
-
         if len(signal) == signal_len:
             if len(set(signal)) == signal_len:
                 print(idx+1, ''.join(signal))
