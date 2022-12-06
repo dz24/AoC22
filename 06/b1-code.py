@@ -21,4 +21,3 @@ INP0 = './a0-example.txt'
 INP1 = './a1-part1.txt'
 solution(INP1, signal_len=4)
 solution(INP1, signal_len=14)
-
