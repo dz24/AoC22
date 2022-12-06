@@ -4,7 +4,6 @@ def read_file(inp):
             rstrip = line.rstrip()
     return rstrip
 
-
 def solution(inp, signal_len=14):
     line = read_file(inp)
     signal = []
