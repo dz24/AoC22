@@ -9,57 +9,42 @@ def read_inp(inp):
 
 
 def solution(inp, tot, fre):
-    dirs = {'/': {'data': [], 'name': [], 'folders': [], 'tot_data': 0}}
-    lines = read_inp(inp)
-    dollar = None
+    dirs = {'/': {'tot_data': 0}}
     folder = []
+    lines = read_inp(inp)
     for line in lines:
+        split = line.split(' ')
         if '$ cd ..' in line:
-            dollar = 'cd'
             folder.pop()
         elif '$ cd' in line[0:4]:
-            dollar = 'cd'
-            folder.append(line.split()[-1])
-        elif '$ ls' in line[0:4]:
-            dollar = 'ls'
-        elif dollar == 'ls':
-            split = line.split(' ')
-            curdir = ''.join(folder)
+            folder.append(split[-1])
+        elif '$' not in line:
             if 'dir' in line:
-                top_folder = split[-1]
-                absdir = curdir + top_folder
-                dirs[curdir]['folders'].append(top_folder)
+                absdir = ''.join(folder) + split[-1]
                 if absdir not in dirs:
-                    dirs[absdir] = {'data': [], 'name': [], 'folders': [],
-                                    'tot_data': 0}
+                    dirs[absdir] = {'tot_data': 0}
             else:
-                dirs[curdir]['data'].append(int(split[0]))
-                dirs[curdir]['name'].append(split[1])
                 dirdir = ''
                 for letter in folder:
                     dirdir += letter
                     dirs[dirdir]['tot_data'] += int(split[0])
 
-    totsum = 0
-    for _, item in dirs.items():
-        if item['tot_data'] <= 100000:
-            totsum += item['tot_data']
-    dire_l = []
-    data_l = []
-    for key, item in dirs.items():
-        dire_l.append(key)
-        data_l.append(item['tot_data'])
+    totsum_1 = 0
+    totsum_2 = tot
+    need_space = fre - (tot - dirs['/']['tot_data'])
+    for value in dirs.values():
+        tdata = value['tot_data']
+        if tdata <= 100000:
+            totsum_1 += tdata
+        if tdata < totsum_2 and tdata - need_space >= 0:
+            totsum_2 = tdata
 
-    used_space = dirs['/']['tot_data']
-    free_space = tot-used_space
-    need_space = fre - free_space
-    min_data = [i for i in sorted(data_l) if i - need_space >= 0]
-    print(min_data[0])
+    print('part1:', totsum_1)
+    print('part2:', totsum_2)
 
 
 TOT = 70000000
 FRE = 30000000
-
 INP0 = './a0-example.txt'
 INP1 = './a1-part1.txt'
 solution(INP1, TOT, FRE)
