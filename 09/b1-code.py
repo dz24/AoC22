@@ -46,7 +46,6 @@ def solution(inp, length=2):
     print(sum([i>=1 for i in history.values()]))
 
 
-
 INP0 = './a0-example.txt'
 INP1 = './a1-example.txt'
 INP2 = './a2-part1.txt'
