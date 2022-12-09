@@ -31,7 +31,7 @@ def solution(inp, length=2):
     bodi = [np.array([0, 0]) for _ in range(length)]
     nwse = {'R': [1, 0], 'L': [-1, 0],
             'U': [0, 1], 'D': [0, -1]}
-    cnt = 0
+
     for line in data:
         move = nwse[line[0]]
         for _ in range(line[1]):
@@ -42,7 +42,6 @@ def solution(inp, length=2):
             if tile not in history:
                 history[tile] = 0
             history[tile] += 1
-            cnt += 1
 
     print(sum([i>=1 for i in history.values()]))
 
